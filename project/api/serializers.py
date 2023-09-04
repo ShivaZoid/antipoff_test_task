@@ -4,7 +4,12 @@ from .models import QueryHistory
 
 
 class QueryHistorySerializer(serializers.ModelSerializer):
-    timestamp = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    timestamp = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S",
+        read_only=True,
+        required=False
+    )
+    response = serializers.BooleanField(default=True)
 
     class Meta:
         model = QueryHistory
