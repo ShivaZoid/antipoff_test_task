@@ -73,6 +73,7 @@ sudo docker-compose stop
 sudo docker-compose down -v
 ~~~
 
+---
 
 ### Примеры API
 
@@ -105,6 +106,7 @@ GET http://127.0.0.1/api/ping
 и выбрать run (default=False)
 ~~~
 
+---
 
 ### Документация
 
