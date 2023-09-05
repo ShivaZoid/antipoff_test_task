@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from .models import QueryHistory
+from .models import Query
 
 
-class QueryHistorySerializer(serializers.ModelSerializer):
+class QuerySerializer(serializers.ModelSerializer):
     timestamp = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S",
         read_only=True,
@@ -12,5 +12,5 @@ class QueryHistorySerializer(serializers.ModelSerializer):
     response = serializers.BooleanField(default=True)
 
     class Meta:
-        model = QueryHistory
+        model = Query
         fields = '__all__'

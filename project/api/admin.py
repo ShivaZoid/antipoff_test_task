@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models import QueryHistory, FakeServer
+from .models import Query, FakeServer
 
 
 admin.site.register(FakeServer)
 
 
-@admin.register(QueryHistory)
+@admin.register(Query)
 class QueryAdmin(admin.ModelAdmin):
     """Конфигурация отображения данных.
 

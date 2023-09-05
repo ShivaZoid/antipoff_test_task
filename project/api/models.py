@@ -5,7 +5,7 @@ from .validators import (validate_cadastre_number,
                          validate_longitude)
 
 
-class QueryHistory(models.Model):
+class Query(models.Model):
     cadastre_number = models.CharField(
         max_length=19,
         unique=True,

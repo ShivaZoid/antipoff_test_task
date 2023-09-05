@@ -159,7 +159,7 @@ paths:
 
 components:
   schemas:
-    QueryHistory:
+    Query:
       type: object
       properties:
         cadastre_number:

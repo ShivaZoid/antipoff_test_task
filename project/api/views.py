@@ -8,13 +8,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import QueryHistory, FakeServer
-from .serializers import QueryHistorySerializer
+from .models import Query, FakeServer
+from .serializers import QuerySerializer
 
 
 class QueryView(APIView):
     def post(self, request):
-        serializer = QueryHistorySerializer(data=request.data)
+        serializer = QuerySerializer(data=request.data)
         if serializer.is_valid():
             cadastre_number = serializer.validated_data['cadastre_number']
             latitude = serializer.validated_data['latitude']
@@ -24,7 +24,7 @@ class QueryView(APIView):
             time.sleep(5)
             response = True
 
-            query_history = QueryHistory.objects.create(
+            query_history = Query.objects.create(
                 cadastre_number=cadastre_number,
                 latitude=latitude,
                 longitude=longitude,
@@ -45,20 +45,20 @@ class QueryView(APIView):
 class QueryHistoryView(APIView):
     """Получить историю запросов из базы данных и вернуть в виде списка."""
     def get(self, request):
-        query_history = QueryHistory.objects.all()
-        serializer = QueryHistorySerializer(query_history, many=True)
+        query_history = Query.objects.all()
+        serializer = QuerySerializer(query_history, many=True)
         return Response(serializer.data)
 
 
 class QueryResultView(APIView):
     def get(self, request, cadastre_number):
         try:
-            query_history = QueryHistory.objects.get(
+            query_history = Query.objects.get(
                 cadastre_number=cadastre_number
             )
             response = query_history.response
             return Response({'result': response}, status=status.HTTP_200_OK)
-        except QueryHistory.DoesNotExist:
+        except Query.DoesNotExist:
             return Response(
                 {'error': 'Query not found'},
                 status=status.HTTP_404_NOT_FOUND
@@ -68,7 +68,7 @@ class QueryResultView(APIView):
 class PingView(APIView):
     def get(self, request):
         try:
-            fake_server = FakeServer.objects.get(pk=1)
+            fake_server = FakeServer.objects.latest('id')
             if fake_server.run:
                 return Response(
                     {'message': 'Server is running'},
@@ -81,6 +81,6 @@ class PingView(APIView):
                 )
         except FakeServer.DoesNotExist:
             return Response(
-                {'error': 'Настройки сервера не найдены'},
+                {'error': 'Server settings not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
