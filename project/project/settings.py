@@ -17,6 +17,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://127.0.0.1'
+).split(', ')
+
+
 INSTALLED_APPS = [
     'rest_framework',
     'api',
@@ -111,6 +117,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
